@@ -1,0 +1,228 @@
+
+		StackPane root = new StackPane();  // ici c'est le noeud de base. en gros ici on a prit un stackpane ca aurait pu etre unun gridpane ou autre
+		Rectangle rec = new Rectangle(300,200,Color.BLUE);
+		Label label = new Label("HELLO WORLD");
+		root.getChildren().add(label);  //rajouter un enfant, ici un label au StackPane
+		root.getChildren().add(rec);
+		rec.toBack();
+		
+		Scene scene = new Scene(root,600,400); 
+		
+		primaryStage.setScene(scene); //on ajoute notre scene a la fenetre
+		primaryStage.show();
+		une interface fonctionnelle est une interface qui a une unique methode abstraite
+		
+				
+		/* 
+		 * AJOUTER UN GESTIONNAIRE D'EVENEMENTS SUR LES NOEUDS SANS LES LAMBDAS EXPRESSIONS
+		 * 
+		 * 
+		 * addGirlfriend.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			
+			public void handle(ActionEvent event) {
+				counter++;
+				System.out.println("Vous venez de cliquer sur le bouton d'ajout de copine" + ' ' + counter);
+				label.setText("Nombre de copine actuel: " +  counter);
+				
+			}
+			
+		});
+		
+		
+		removeGirlfriend.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			
+			public void handle(ActionEvent event) {
+				if(counter > 0)
+					counter--;
+				System.out.println("Vous venez de cliquer sur le bouton d'ajout de copine" + ' ' + counter);
+				label.setText("Nombre de copine : " + counter);
+				
+			}
+			
+		});
+		*/
+		event.getSource() permet de donner le noeud sur lequel on a clique
+		
+		//TP COUREUR DE JUPONS
+		
+		public class MainApp extends Application{
+	private int counter = 3;
+	private Label label;
+	private Button addGirlfriend;
+	private Button removeGirlfriend = new Button("J'ai perdu une copine");
+	
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle("Coureurs de jupons");
+		
+		VBox root = new VBox(10);  // l'argument du VBOX permet d'ajouter l'espace entre les differents elements du vbox
+		
+		root.setAlignment(Pos.CENTER);
+		root.setPadding(new Insets(25));  // pour ajouter un padding (marge interieure)
+		
+// INTEGRATION DES IMAGES
+		ImageView likeImage = new ImageView(getClass().getResource("/resources/images/love.png").toString());
+		ImageView thumbsImage = new ImageView(getClass().getResource("/resources/images/thumbs.png").toString());
+		ImageView likeHoverImage = new ImageView(getClass().getResource("/resources/images/love-hover.png").toString());
+		ImageView thumbsHoverImage = new ImageView(getClass().getResource("/resources/images/thumbs-hover.png").toString());
+		
+		//LES LAMBDAS EXPRESSIONS
+		label = new Label("Nombre de copine actuel: 3");
+		
+		
+		addGirlfriend = new Button("J'ai une nouvelle copine");
+		addGirlfriend.setGraphic(likeImage);
+		//POUR MODIFIER L'EMPLACEMENT D'UN NOEUD
+		
+		addGirlfriend.setContentDisplay(ContentDisplay.TOP);
+		// IMAGE AU SURVOL
+		
+		addGirlfriend.setOnMouseEntered(e -> addGirlfriend.setGraphic(likeHoverImage));
+		
+		//IMAGE LORSQU'ON QUITTE LE SURVOL
+		
+		addGirlfriend.setOnMouseExited(e -> addGirlfriend.setGraphic(likeImage));
+		
+		addGirlfriend.setOnAction(e -> {
+			
+			counter++;
+			setLabel(counter);
+		});
+		
+		removeGirlfriend.setGraphic(thumbsImage);
+		removeGirlfriend.setContentDisplay(ContentDisplay.TOP);
+		removeGirlfriend.setOnMouseEntered(e -> removeGirlfriend.setGraphic(thumbsHoverImage));
+
+		removeGirlfriend.setOnMouseExited(e -> removeGirlfriend.setGraphic(thumbsImage));
+		
+		removeGirlfriend.setOnAction(e -> {
+			
+			if(counter > 0)
+			counter--;
+			setLabel(counter);
+		});
+
+		
+		root.getChildren().addAll(label,addGirlfriend,removeGirlfriend);
+		
+		Scene scene = new Scene(root, 300,200);
+		primaryStage.setScene(scene);
+		 primaryStage.setResizable(false);
+		primaryStage.show();
+		
+		
+	}
+	public void setLabel(int counter) {
+	
+		label.setText("Nombre de copine actuel: " +  counter);
+	}
+	public static void main(String[] args) {
+		launch(args);
+	}
+		
+		
+		
+		LES OBSERVABLES sur les graphics
+		
+		 addGirlfriend.graphicProperty().bind(
+				 Bindings.when(addGirlfriend.hoverProperty()).then(likeHoverImage).otherwise(likeImage)
+				 );
+				 
+			POUR QU'UN NOEUD OCCUPE TOUT L'ESPACE
+			noeud.setMaxWidth(Double.MAX_VALUE);
+			
+			POUR LA DOCUMENTATION SUR LE CSS EN JAVAFX:ORACLE JAVAFX CSS REFERENCES GUIDES
+			
+			TP COUREURS DE JUPONS SANS IMAGES
+			public class MainApp extends Application{
+	private int counter = 3;
+	private Label title;
+	private Label label;
+	private Button addGirlfriend;
+	private Button removeGirlfriend = new Button("remove girlfriend".toUpperCase());
+	
+	Font font = Font.font("Metropolis", 16);
+	HBox hz = new HBox(5);
+	
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle("The Womanizer Best Friend");
+		
+		
+		
+		VBox root = new VBox(10);  // l'argument du VBOX permet d'ajouter l'espace entre les differents elements du vbox
+		root.setBackground(new Background(new BackgroundFill(Color.web("#F0F4F8"), null, null)) );
+		
+		root.setAlignment(Pos.CENTER);
+		root.setPadding(new Insets(25));  // pour ajouter un padding (marge interieure)
+		
+
+		
+		//LES LAMBDAS EXPRESSIONS
+		label = new Label("Nombre de copine actuel: 3");
+		title = new Label("The Womanizer");
+		
+		//LES POLICES
+		label.setFont(Font.font("Metropolis", 14));
+		title.setFont(Font.font("Austaly",FontWeight.BOLD,28));
+		title.setPadding(new Insets(0,0,40,0));
+		title.setTextFill(Color.web("#044E54"));
+		label.setTextFill(Color.web("#044E54"));
+		
+		
+	//BOUTON addGirlfriend	
+		addGirlfriend = new Button("add girlfriend".toUpperCase());
+		addGirlfriend.setFont(font);
+		addGirlfriend.setBackground(new Background(new BackgroundFill(Color.web("#E66A6A"),null, null)));
+		addGirlfriend.setTextFill(Color.WHITE);
+		addGirlfriend.setPadding(new Insets(5));
+		
+		
+		
+		//HBOX
+		hz.getChildren().addAll(addGirlfriend, removeGirlfriend);
+		addGirlfriend.setOnAction(e -> {
+			
+			counter++;
+			setLabel(counter);
+		});
+
+			removeGirlfriend.setFont(font);
+			removeGirlfriend.setBackground(new Background(new BackgroundFill(Color.web("#E66A6A"),null, null)));
+			removeGirlfriend.setTextFill(Color.WHITE);
+			removeGirlfriend.setPadding(new Insets(5));
+		// bouton removeGirlfriend
+		removeGirlfriend.setOnAction(e -> {
+			
+			if(counter > 0)
+			counter--;
+			setLabel(counter);
+		});
+
+		
+		root.getChildren().addAll(title,label,hz);
+		
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/resources/css/App.css").toString());
+		primaryStage.setScene(scene);
+		 primaryStage.setResizable(false);
+		primaryStage.show();
+		
+		
+	}
+	public void setLabel(int counter) {
+	
+		label.setText("Nombre de copine actuel: " +  counter);
+	}
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+}
+			
